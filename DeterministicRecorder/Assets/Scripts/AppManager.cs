@@ -10,6 +10,6 @@ public class AppManager : MonoBehaviour
     //Reloads the current Scene
     public void ReloadScene()
     {
-        SceneManager.LoadScene(Application.loadedLevelName);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

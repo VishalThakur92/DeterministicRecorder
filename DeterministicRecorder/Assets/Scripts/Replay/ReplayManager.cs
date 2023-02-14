@@ -15,7 +15,7 @@ public class ReplayManager : MonoBehaviour
 
     //List of Objects whose transform shall be recorded
     [SerializeField]
-    Transform[] transforms;
+    Shape[] recordableObjects;
 
     private MemoryStream memoryStream = null;
     private BinaryWriter binaryWriter = null;
@@ -25,6 +25,7 @@ public class ReplayManager : MonoBehaviour
     private bool recording = false;
     private bool replaying = false;
 
+    [SerializeField]
     private int currentRecordingFrames = 0;
     public int maxRecordingFrames = 360;
 
@@ -115,7 +116,7 @@ public class ReplayManager : MonoBehaviour
 
         if (replayFrameTimer == 0)
         {
-            SaveTransforms(transforms);
+            SaveData(recordableObjects);
             ResetReplayFrameTimer();
         }
         --replayFrameTimer;
@@ -170,7 +171,7 @@ public class ReplayManager : MonoBehaviour
 
         if (replayFrameTimer == 0)
         {
-            LoadTransforms(transforms);
+            LoadData(recordableObjects);
             ResetReplayFrameTimer();
         }
         --replayFrameTimer;
@@ -195,12 +196,18 @@ public class ReplayManager : MonoBehaviour
         replayFrameTimer = 0;
     }
 
-    private void SaveTransforms(Transform[] transforms)
+    private void SaveData(Shape[] shapes)
     {
-        foreach (Transform transform in transforms)
+        for(int i=0;i<shapes.Length;i++)
         {
-            SaveTransform(transform);
+            SaveTransform(shapes[i].transform);
+            SaveColor(shapes[i]);
         }
+    }
+
+
+    void SaveColor(Shape shape) {
+        binaryWriter.Write(shape.currentColorIndex);
     }
 
     private void SaveTransform(Transform transform)
@@ -213,15 +220,25 @@ public class ReplayManager : MonoBehaviour
         binaryWriter.Write(transform.localScale.z);
     }
 
-    private void LoadTransforms(Transform[] transforms)
-    {
 
-        foreach (Transform transform in transforms)
-        {
-            LoadTransform(transform);
+
+
+    private void LoadData(Shape[] shapes)
+    {
+        for (int i = 0; i < shapes.Length; i++) {
+            LoadTransform(shapes[i].transform);
+            LoadColor(shapes[i]);
         }
     }
 
+
+
+    void LoadColor(Shape shape)
+    {
+        int colorIndex = binaryReader.ReadInt32();
+        shape.SetColor(colorIndex);
+        Debug.LogError("Color = " +  colorIndex);
+    }
     private void LoadTransform(Transform transform)
     {
 
