@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class StarShape : Shape, IInteractable
+public class StarShape : Shape, IMouseInteractable
 {
     public void OnLeftMouseClick()
     {

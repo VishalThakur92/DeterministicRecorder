@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InteractionManager : GenericSingletonClass<InteractionManager>
+public class MouseInteractionManager : GenericSingletonClass<MouseInteractionManager>
 {
 
 
@@ -19,8 +19,8 @@ public class InteractionManager : GenericSingletonClass<InteractionManager>
     //Was there a drag ?
     bool isDragging = false;
 
-    //The current interactable obj
-    IInteractable currentInteractableObject;
+    //The current mouse interactable obj
+    IMouseInteractable currentInteractableObject;
 
 
     //Used to determine if a drag was performed
@@ -85,8 +85,8 @@ public class InteractionManager : GenericSingletonClass<InteractionManager>
 
 
         //save the obj if is of type IInteractable 
-        if (obj.GetComponent<IInteractable>() != null)
-            currentInteractableObject = obj.GetComponent<IInteractable>();
+        if (obj.GetComponent<IMouseInteractable>() != null)
+            currentInteractableObject = obj.GetComponent<IMouseInteractable>();
         else
             Debug.LogError("Invalid IInteractable obj");
     }

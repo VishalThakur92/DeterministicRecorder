@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TriangleShape : Shape, IInteractable
+public class TriangleShape : Shape, IMouseInteractable
 {
     public void OnLeftMouseClick()
     {
