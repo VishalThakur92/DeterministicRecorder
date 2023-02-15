@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneHandler: GenericSingletonClass<SceneHandler>
+public class SceneHandler: MonoBehaviour
 {
-    //TODO move it inside scene manager
     //Reloads the current Scene
     public void ReloadScene()
     {

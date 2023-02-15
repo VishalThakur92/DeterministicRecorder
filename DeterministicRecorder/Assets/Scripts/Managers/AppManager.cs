@@ -12,4 +12,7 @@ public class AppManager : GenericSingletonClass<AppManager>
 
     [SerializeField]
     public MouseInteractionManager mouseInteractionManager;
+
+    [SerializeField]
+    public SceneHandler sceneHandler;
 }

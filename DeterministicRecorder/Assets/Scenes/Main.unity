@@ -1029,6 +1029,7 @@ MonoBehaviour:
   popupManager: {fileID: 1080101866}
   tooltipManager: {fileID: 1815250331}
   mouseInteractionManager: {fileID: 326597573}
+  sceneHandler: {fileID: 0}
 --- !u!1 &682294026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,7 +1046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &682294027
 Transform:
   m_ObjectHideFlags: 0
@@ -1787,7 +1788,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 682294028}
-        m_TargetAssemblyTypeName: AppManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: SceneHandler, Assembly-CSharp
         m_MethodName: ReloadScene
         m_Mode: 1
         m_Arguments:
@@ -2376,7 +2377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1902595388
 RectTransform:
   m_ObjectHideFlags: 0
