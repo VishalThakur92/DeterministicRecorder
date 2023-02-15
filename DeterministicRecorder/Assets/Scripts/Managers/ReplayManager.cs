@@ -134,8 +134,8 @@ public class ReplayManager : MonoBehaviour
 
     private void ResetReplayFrame()
     {
-        memoryStream.Seek(0, SeekOrigin.Begin);
-        binaryWriter.Seek(0, SeekOrigin.Begin);
+        memoryStream?.Seek(0, SeekOrigin.Begin);
+        binaryWriter?.Seek(0, SeekOrigin.Begin);
     }
 
     public void StartStopReplaying()
@@ -207,7 +207,7 @@ public class ReplayManager : MonoBehaviour
 
 
     void SaveColor(Shape shape) {
-        binaryWriter.Write(shape.currentColorIndex);
+        binaryWriter.Write(shape.GetCurrentColorIndex());
     }
 
     private void SaveTransform(Transform transform)

@@ -1,90 +1,79 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Image))]
-public class Shape : MonoBehaviour, IDragHandler, IPointerUpHandler
+public abstract class Shape : MonoBehaviour
 {
 
+    #region Parameters
+    //Name of this shape
     [SerializeField]
-    public string uniqueName;
+    protected string shapeName;
+
+    //short Description about this shape
     [SerializeField]
-    bool wasDragged = false;
+    protected string shortDescription;
 
-
+    //Detailed Description about this shape
     [SerializeField]
-    List<Color> availableColors = new List<Color>();
+    protected string longDescription;
 
-    Image imageRef;
+    //the possible Color Variations for this shape
+    [SerializeField]
+    protected List<Color> colorVariations = new List<Color>();
+
+    //Ref to this shape's Image component
+    protected Image imageRef;
+
+    //Index of the currently selected color amongst the colorVariations
+    protected int currentColorIndex = 0;
+
+    //Last selected color index , Used to avoid setting of same color again & again
+    protected int lastSetColorIndex = 0;
+    #endregion
 
 
-    public int currentColorIndex = 0;
 
-
-
-
-
+    #region Unity
     void Start() {
 
-        //get the Shape's Image Ref
+        //grab the Shape's Image Ref
         imageRef = GetComponent<Image>();
 
         //set first color as default
-        if (availableColors.Count > 0)
-            imageRef.color = availableColors[currentColorIndex];
+        if (colorVariations.Count > 0)
+            imageRef.color = colorVariations[currentColorIndex];
     }
+    #endregion
 
 
-    //Handle what happens OnDrag event
-    public void OnDrag(PointerEventData eventData)
-    {
-        //reposition this transform to the new drag position
-        transform.position = eventData.position;
-
-        if (Vector2.Equals(eventData.delta, Vector2.zero))
-        {
-            wasDragged = false;
-        }
-        else
-            wasDragged = true;
-    }
-
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-
-        if (wasDragged)
-        {
-            wasDragged = false;
-            return;
-        }
-        CycleColor();
-        Debug.LogError(gameObject.name + "was clicked");
-    }
-
-    void CycleColor()
+    #region Core
+    protected virtual void CycleColor()
     {
         currentColorIndex++;
 
-        if (currentColorIndex >= availableColors.Count)
+        if (currentColorIndex >= colorVariations.Count)
             currentColorIndex = 0;
 
         SetColor(currentColorIndex);
     }
 
-
-    int lastSetColorIndex = 0;
-
-
-    public void SetColor(int colorIndex)
+    public virtual void SetColor(int colorIndex)
     {
         //Skip setting same color
         if (lastSetColorIndex == colorIndex)
             return;
 
+        //save the last set color index 
         lastSetColorIndex = colorIndex;
-        imageRef.color = availableColors[colorIndex];
+
+        //set shape's Color
+        imageRef.color = colorVariations[colorIndex];
     }
+
+    public int GetCurrentColorIndex() {
+        return currentColorIndex;
+    }
+    #endregion
 }
