@@ -4,6 +4,7 @@ public class TriangleShape : Shape, IInteractable
 {
     public void OnLeftMouseClick()
     {
+        PopupManager.Instance.TogglePopup(true, longDescription);
         Debug.LogError(shapeName + "Left mouse Click");
     }
 

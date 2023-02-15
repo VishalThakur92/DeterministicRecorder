@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InteractionManager : MonoBehaviour
+public class InteractionManager : GenericSingletonClass<InteractionManager>
 {
 
 
@@ -21,6 +21,10 @@ public class InteractionManager : MonoBehaviour
 
     //The current interactable obj
     IInteractable currentInteractableObject;
+
+
+    //Used to determine if a drag was performed
+    Vector3 lastMousePosition;
     #endregion
 
 
@@ -32,12 +36,23 @@ public class InteractionManager : MonoBehaviour
 
     void Update()
     {
+        //Start of a potential Drag
+        if (Input.GetMouseButtonDown(0)) {
+            lastMousePosition = Input.mousePosition;
+        }
 
         //Left Click
         if (Input.GetMouseButtonUp(0))
         {
-            currentInteractableObject?.OnMousePointerExit();
-            currentInteractableObject?.OnLeftMouseClick();
+            //Drag was performed
+            if (!Vector3.Equals(lastMousePosition, Input.mousePosition))
+            {
+                currentInteractableObject?.OnMousePointerExit();
+            }
+            else {
+                currentInteractableObject?.OnLeftMouseClick();
+            }
+
             isDragging = false;
         }
 
@@ -50,8 +65,12 @@ public class InteractionManager : MonoBehaviour
         //Drag
         if (Input.GetMouseButton(0))
         {
-            isDragging = true;
-            currentInteractableObject?.OnMouseDrag(Input.mousePosition);
+            //Drag was performed
+            if (!Vector3.Equals(lastMousePosition, Input.mousePosition))
+            {
+                isDragging = true;
+                currentInteractableObject?.OnMouseDrag(Input.mousePosition);
+            }
         }
     }
 
