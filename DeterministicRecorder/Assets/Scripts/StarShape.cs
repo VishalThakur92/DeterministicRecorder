@@ -5,7 +5,10 @@ public class StarShape : Shape, IMouseInteractable
     public void OnLeftMouseClick()
     {
         //Show Popup
-        AppManager.Instance.popupManager.Toggle(true,longDescription);
+        AppManager.Instance.popupManager.Toggle(true, longDescription);
+
+        //Hide Tooltip
+        AppManager.Instance.tooltipManager.Toggle(false);
     }
 
     public void OnRightMouseClick()
@@ -13,7 +16,6 @@ public class StarShape : Shape, IMouseInteractable
         //Cycle this shapes Color
         CycleColor();
 
-        AppManager.Instance.tooltipManager.Toggle(true, shortDescription, transform.position);
         //Hide Popup
         AppManager.Instance.popupManager.Toggle(false);
     }
@@ -23,6 +25,9 @@ public class StarShape : Shape, IMouseInteractable
         //Hide Popup
         AppManager.Instance.popupManager.Toggle(false);
 
+        //Hide Tooltip
+        AppManager.Instance.tooltipManager.Toggle(false);
+
         //Move this Shape to the position
         transform.position = position;
     }
@@ -31,6 +36,7 @@ public class StarShape : Shape, IMouseInteractable
     {
         //Show ToolTip
         AppManager.Instance.tooltipManager.Toggle(true, shortDescription, transform.position);
+        Debug.LogError("On hover extended" + Time.time);
     }
 
     public void OnMousePointerExit()

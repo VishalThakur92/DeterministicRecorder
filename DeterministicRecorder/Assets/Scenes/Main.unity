@@ -2108,8 +2108,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 326597573}
-          m_TargetAssemblyTypeName: InteractionManager, Assembly-CSharp
-          m_MethodName: SetInteractableObject
+          m_TargetAssemblyTypeName: MouseInteractionManager, Assembly-CSharp
+          m_MethodName: OnPointerEnter
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 1660216382}
@@ -2124,8 +2124,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 326597573}
-          m_TargetAssemblyTypeName: InteractionManager, Assembly-CSharp
-          m_MethodName: ResetInteractableObject
+          m_TargetAssemblyTypeName: MouseInteractionManager, Assembly-CSharp
+          m_MethodName: OnPointerExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2922,8 +2922,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 326597573}
-          m_TargetAssemblyTypeName: InteractionManager, Assembly-CSharp
-          m_MethodName: SetInteractableObject
+          m_TargetAssemblyTypeName: MouseInteractionManager, Assembly-CSharp
+          m_MethodName: OnPointerEnter
           m_Mode: 2
           m_Arguments:
             m_ObjectArgument: {fileID: 2135163411}
@@ -2938,8 +2938,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 326597573}
-          m_TargetAssemblyTypeName: InteractionManager, Assembly-CSharp
-          m_MethodName: ResetInteractableObject
+          m_TargetAssemblyTypeName: MouseInteractionManager, Assembly-CSharp
+          m_MethodName: OnPointerExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

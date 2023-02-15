@@ -11,10 +11,11 @@ public class MouseInteractionManager : MonoBehaviour
     //Time when Pointer enters an interactable object
     float timestamp = 0;
 
-
     //If timer gets past this many seconds then It will considered as an extended hover
     [SerializeField]
     float extendedHoverTime = 3;
+
+    bool didExtendedHover = false;
 
     //Was there a drag ?
     bool isDragging = false;
@@ -31,9 +32,6 @@ public class MouseInteractionManager : MonoBehaviour
 
 
     #region Core
-
-
-
     void Update()
     {
         //Start of a potential Drag
@@ -71,11 +69,18 @@ public class MouseInteractionManager : MonoBehaviour
                 isDragging = true;
                 currentInteractableObject?.OnMouseDrag(Input.mousePosition);
             }
+
+
+            didExtendedHover = false;
+        }
+
+        if (Input.GetMouseButton(1)) {
+            didExtendedHover = false;
         }
     }
 
-    //Mouse Pointer entered an IInteractable object
-    public void SetInteractableObject(GameObject obj)
+    //Mouse Pointer entered an IMouseInteractable object
+    public void OnPointerEnter(GameObject obj)
     {
         if (isDragging)
             return;
@@ -83,81 +88,43 @@ public class MouseInteractionManager : MonoBehaviour
         //Save the time stamp for extended hover detection
         timestamp = Time.time;
 
+        StartCoroutine(CheckExtendedHover());
 
-        //save the obj if is of type IInteractable 
+        //save the obj if is of type IMouseInteractable 
         if (obj.GetComponent<IMouseInteractable>() != null)
             currentInteractableObject = obj.GetComponent<IMouseInteractable>();
         else
-            Debug.LogError("Invalid IInteractable obj");
+            Debug.LogError("Invalid IMouseInteractable obj");
     }
 
-    //Pointer exited an IInteractable  object
-    public void ResetInteractableObject()
+    //Pointer exited an IMouseInteractable  object
+    public void OnPointerExit()
     {
         if(!isDragging)
             currentInteractableObject = null;
+
+        didExtendedHover = false;
+    }
+
+
+    //Checks if the user is performing an extended hover
+    //in simple words, check if the user has the mouse over the IMouseInteractable object for extendedHoverTime
+    IEnumerator CheckExtendedHover() {
+        didExtendedHover = true;
+        int startTime = 0;
+        while (startTime <= extendedHoverTime) {
+            startTime++;
+            yield return new WaitForSeconds(1);
+        }
+        if (didExtendedHover)
+        {
+            currentInteractableObject?.OnMouseHoverExtended();
+            didExtendedHover = false;
+        }
+        StopCoroutine(CheckExtendedHover());
     }
 
    
 
     #endregion
-
-
-
-
-
-
-
-    ////Handle what happens OnDrag event
-    //public void OnDrag(PointerEventData eventData)
-    //{
-    //    //reposition this transform to the new drag position
-    //    currentInteractableObject.OnMouseDrag(eventData.position);
-
-    //    Debug.LogError("On Drag");
-    //    if (Vector2.Equals(eventData.delta, Vector2.zero))
-    //    {
-    //        isDragging = false;
-    //    }
-    //    else
-    //    {
-    //        isDragging = true;
-    //    }
-    //}
-
-
-    //public void OnPointerUp(PointerEventData eventData)
-    //{
-
-    //    if (isDragging)
-    //    {
-    //        isDragging = false;
-    //        return;
-    //    }
-
-    //    if (eventData.button == PointerEventData.InputButton.Left)
-    //    {
-    //        currentInteractableObject.OnLeftMouseClick();
-    //    }
-    //    else if (eventData.button == PointerEventData.InputButton.Right) {
-    //        currentInteractableObject.OnRightMouseClick();
-    //    }
-    //}
-
-
-    //public void OnPointerEnter()
-    //{
-    //    timestamp = Time.time;
-    //    Debug.LogError("Pointer Enter");
-    //}
-
-    //public void OnPointerExit(PointerEventData eventData)
-    //{
-    //    Debug.LogError("Pointer Exit");
-    //}
-
-
-    void OnExtendedHover() {
-        Debug.LogError("On Extended Hover");
-    }
 }
