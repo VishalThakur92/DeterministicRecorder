@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class UIElement : GenericSingletonClass<UIElement>
+public abstract class UIElement : MonoBehaviour
 {
 
     #region Parameters

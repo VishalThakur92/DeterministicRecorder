@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MouseInteractionManager : GenericSingletonClass<MouseInteractionManager>
+public class MouseInteractionManager : MonoBehaviour
 {
 
 
