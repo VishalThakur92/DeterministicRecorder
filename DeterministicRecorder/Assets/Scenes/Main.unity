@@ -1066,7 +1066,7 @@ MonoBehaviour:
   popupManager: {fileID: 1080101866}
   tooltipManager: {fileID: 1815250331}
   mouseInteractionManager: {fileID: 326597573}
-  sceneHandler: {fileID: 0}
+  sceneHandler: {fileID: 682294028}
 --- !u!1 &682294026
 GameObject:
   m_ObjectHideFlags: 0
