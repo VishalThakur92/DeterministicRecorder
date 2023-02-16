@@ -13,6 +13,10 @@ public abstract class UIElement : MonoBehaviour
     //Text ref
     [SerializeField]
     protected Text textRef;
+
+
+    //Represents if this UIElement is active over the GUI or not
+    protected bool isActive;
     #endregion
 
 
@@ -32,6 +36,21 @@ public abstract class UIElement : MonoBehaviour
         //Set the Specified text
         //Is set null if no data is provided
         textRef.text = data;
+
+        isActive = flag;
+    }
+
+
+    //Get the IsActive state of this UIElement
+    public virtual bool GetIsActive()
+    {
+        return isActive;
+    }
+
+    //Get the string data of the Text element
+    public virtual string GetText()
+    {
+        return textRef.text;
     }
     #endregion
 }

@@ -196,13 +196,60 @@ public class ReplayManager : MonoBehaviour
         replayFrameTimer = 0;
     }
 
+
+    //Save data to the Memory Stream
     private void SaveData(Shape[] shapes)
     {
-        for(int i=0;i<shapes.Length;i++)
+
+        //----Save Tooltip Data-------
+        //Grab tooltip active state
+        bool tooltipActiveState = AppManager.Instance.tooltipManager.GetIsActive();
+
+        //Save Tooltip State active state
+        binaryWriter.Write(tooltipActiveState);
+
+        //If tooltip is in active state
+        if (tooltipActiveState)
         {
+            //Save Tooltip text 
+            binaryWriter.Write(AppManager.Instance.tooltipManager.GetText());
+
+            //Save Tooltip position X
+            binaryWriter.Write(AppManager.Instance.tooltipManager.GetPosition().x);
+
+            //Save Tooltip position Y
+            binaryWriter.Write(AppManager.Instance.tooltipManager.GetPosition().y);
+        }
+        //----------------------------
+
+
+        //----Save popup Data-------
+        //Grab popup active state
+        bool popupActiveState = AppManager.Instance.popupManager.GetIsActive();
+
+        //Save popup State active state
+        binaryWriter.Write(popupActiveState);
+
+        //If popup is in active state
+        if (popupActiveState)
+        {
+            //Save popup text 
+            binaryWriter.Write(AppManager.Instance.popupManager.GetText());
+        }
+        //----------------------------
+
+
+
+        //-----Save Transform and Color Data------
+        for (int i=0;i<shapes.Length;i++)
+        {
+            //Save Transforms of each obj
             SaveTransform(shapes[i].transform);
+
+            //Save Color of each obj
             SaveColor(shapes[i]);
         }
+        //----------------------------------------
     }
 
 
@@ -212,12 +259,9 @@ public class ReplayManager : MonoBehaviour
 
     private void SaveTransform(Transform transform)
     {
+        //Save Position X and Y
         binaryWriter.Write(transform.localPosition.x);
         binaryWriter.Write(transform.localPosition.y);
-        binaryWriter.Write(transform.localPosition.z);
-        binaryWriter.Write(transform.localScale.x);
-        binaryWriter.Write(transform.localScale.y);
-        binaryWriter.Write(transform.localScale.z);
     }
 
 
@@ -225,39 +269,59 @@ public class ReplayManager : MonoBehaviour
 
     private void LoadData(Shape[] shapes)
     {
+        //----Load Tooltip Data-------
+        //Grab tooltip active state
+        bool tooltipActiveState = binaryReader.ReadBoolean();//AppManager.Instance.tooltipManager.GetIsActive();
+
+        //If tooltip is in active state
+        if (tooltipActiveState)
+        {
+            //Show tooltip with the Text at a position
+            AppManager.Instance.tooltipManager.Toggle(true , binaryReader.ReadString() , new Vector2(binaryReader.ReadSingle() , binaryReader.ReadSingle()));
+        }
+        else {
+            //Disable Tooltip
+            AppManager.Instance.tooltipManager.Toggle(false);
+        }
+        //----------------------------
+
+
+        //----Load popup Data-------
+        //Grab popup active state
+        bool popupActiveState = binaryReader.ReadBoolean();
+
+        //If popup is in active state
+        if (popupActiveState)
+        {
+            //Show Popup with the Text
+            AppManager.Instance.popupManager.Toggle(true, binaryReader.ReadString());
+        }
+        else{
+            //Disable Popup
+            AppManager.Instance.popupManager.Toggle(false);
+        }
+        //----------------------------
+
+
+        //-----Load Transform and Color Data------
         for (int i = 0; i < shapes.Length; i++) {
             LoadTransform(shapes[i].transform);
             LoadColor(shapes[i]);
         }
+        //----------------------------------------
     }
 
 
 
     void LoadColor(Shape shape)
     {
-        int colorIndex = binaryReader.ReadInt32();
-        shape.SetColor(colorIndex);
-        Debug.LogError("Color = " +  colorIndex);
+        //Load and Set Color Index
+        shape.SetColor(binaryReader.ReadInt32());
     }
     private void LoadTransform(Transform transform)
     {
-
-        //Debug.LogError("pos x" + binaryReader.ReadDouble().ToString());
-        //Debug.LogError("pos y" + binaryReader.ReadDouble().ToString());
-        //Debug.LogError("pos z" + binaryReader.ReadDouble().ToString());
-
-        //Debug.LogError("scale x" + binaryReader.ReadSingle().ToString());
-        //Debug.LogError("scale y" + binaryReader.ReadSingle().ToString());
-        //Debug.LogError("scale z" + binaryReader.ReadSingle().ToString());
-        //return;
-        float x = binaryReader.ReadSingle();
-        float y = binaryReader.ReadSingle();
-        float z = binaryReader.ReadSingle();
-        transform.localPosition = new Vector3(x, y, z);
-        x = binaryReader.ReadSingle();
-        y = binaryReader.ReadSingle();
-        z = binaryReader.ReadSingle();
-        transform.localScale = new Vector3(x, y, z);
+        //Load and Set Transform position
+        transform.localPosition = new Vector3(binaryReader.ReadSingle(), binaryReader.ReadSingle(), transform.localPosition.z);
     }
     #endregion
 }

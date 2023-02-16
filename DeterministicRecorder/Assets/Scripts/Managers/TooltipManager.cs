@@ -13,4 +13,9 @@ public class TooltipManager : UIElement
         //Reposition the tooltip to the specified position
         uiRef.transform.position = position;
     }
+
+    //Get position of this Tooltip
+    public Vector2 GetPosition() {
+        return (Vector2)uiRef.transform.position;
+    }
 }

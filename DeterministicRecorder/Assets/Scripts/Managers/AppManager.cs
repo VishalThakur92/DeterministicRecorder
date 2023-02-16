@@ -5,10 +5,10 @@ using UnityEngine;
 public class AppManager : GenericSingletonClass<AppManager>
 {
     [SerializeField]
-    public UIElement popupManager;
+    public PopupManager popupManager;
 
     [SerializeField]
-    public UIElement tooltipManager;
+    public TooltipManager tooltipManager;
 
     [SerializeField]
     public MouseInteractionManager mouseInteractionManager;

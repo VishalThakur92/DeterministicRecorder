@@ -18,6 +18,9 @@ public class StarShape : Shape, IMouseInteractable
 
         //Hide Popup
         AppManager.Instance.popupManager.Toggle(false);
+
+        //Hide Tooltip
+        AppManager.Instance.tooltipManager.Toggle(false);
     }
 
     public void OnMouseDrag(Vector2 position)
@@ -36,7 +39,6 @@ public class StarShape : Shape, IMouseInteractable
     {
         //Show ToolTip
         AppManager.Instance.tooltipManager.Toggle(true, shortDescription, transform.position);
-        Debug.LogError("On hover extended" + Time.time);
     }
 
     public void OnMousePointerExit()

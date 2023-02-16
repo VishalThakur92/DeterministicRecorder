@@ -61,6 +61,7 @@ public abstract class Shape : MonoBehaviour
 
     public virtual void SetColor(int colorIndex)
     {
+        Debug.LogError(shapeName +  "Set Color " + colorIndex);
         //Skip setting same color
         if (lastSetColorIndex == colorIndex)
             return;
