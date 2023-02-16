@@ -417,19 +417,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 84255773}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2114559120}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &84255773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1574,6 +1562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiRef: {fileID: 2114559120}
   textRef: {fileID: 136244556}
+  closeButton: {fileID: 84255772}
 --- !u!1 &1084484766
 GameObject:
   m_ObjectHideFlags: 0
