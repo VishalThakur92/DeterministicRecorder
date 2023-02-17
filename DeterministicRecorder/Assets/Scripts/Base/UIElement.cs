@@ -2,6 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//This is the base class of any UIElement 
+
+//In our case we have Popup , Tooltip
+//All of them can have individual characteristic and behaviours
 public abstract class UIElement : MonoBehaviour
 {
 
@@ -21,7 +26,7 @@ public abstract class UIElement : MonoBehaviour
 
 
 
-    #region Unity
+    #region Core 
     protected virtual void Start()
     {
         Toggle(false);

@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+//This class is responsible for the Interaction with IMouseInteractable objects via mouse
 public class MouseInteractionManager : MonoBehaviour
 {
 
 
     #region Parameters
-    //Time when Pointer enters an interactable object
-    float timestamp = 0;
-
     //If timer gets past this many seconds then It will considered as an extended hover
     [SerializeField]
     float extendedHoverTime = 3;
@@ -85,9 +83,7 @@ public class MouseInteractionManager : MonoBehaviour
         if (isDragging)
             return;
 
-        //Save the time stamp for extended hover detection
-        timestamp = Time.time;
-
+        //Start Checking for Extended Hover
         StartCoroutine(CheckExtendedHover());
 
         //save the obj if is of type IMouseInteractable 
@@ -123,8 +119,5 @@ public class MouseInteractionManager : MonoBehaviour
         }
         StopCoroutine(CheckExtendedHover());
     }
-
-   
-
     #endregion
 }

@@ -1012,7 +1012,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1242420711}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &326597573
 MonoBehaviour:
@@ -1406,7 +1406,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1242420711}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &611660282
 MonoBehaviour:
@@ -1423,8 +1423,8 @@ MonoBehaviour:
   popupManager: {fileID: 1080101866}
   tooltipManager: {fileID: 1815250331}
   mouseInteractionManager: {fileID: 326597573}
-  sceneHandler: {fileID: 682294028}
   fileIOManager: {fileID: 1095401791}
+  replayManager: {fileID: 1084484768}
 --- !u!1 &624467358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1583,49 +1583,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644891601}
   m_CullTransparentMesh: 1
---- !u!1 &682294026
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 682294027}
-  - component: {fileID: 682294028}
-  m_Layer: 0
-  m_Name: SceneHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &682294027
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682294026}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1242420711}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &682294028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 682294026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95c678f8487944ba28c47823e1caa551, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &685715949
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,7 +1645,7 @@ Transform:
   - {fileID: 1080101865}
   - {fileID: 1815250330}
   m_Father: {fileID: 1242420711}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &726699674
 GameObject:
@@ -2486,7 +2443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4d68e410a86496792b74c5fa7ee7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  streamData: 
   recordableObjects:
   - {fileID: 1660216388}
   - {fileID: 2135163416}
@@ -2523,7 +2479,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1242420711}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1095401791
 MonoBehaviour:
@@ -2785,7 +2741,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1084484767}
-  - {fileID: 682294027}
   - {fileID: 326597572}
   - {fileID: 611660281}
   - {fileID: 1095401790}
@@ -2877,7 +2832,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 682294028}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SceneHandler, Assembly-CSharp
         m_MethodName: ReloadScene
         m_Mode: 1
@@ -4382,7 +4337,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1242420711}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1945269148
 GameObject:

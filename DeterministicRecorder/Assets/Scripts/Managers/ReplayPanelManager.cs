@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+//This class handles the UI related to the Replay/Recording manager
 public class ReplayPanelManager : MonoBehaviour
 {
     #region Parameters
@@ -28,37 +29,36 @@ public class ReplayPanelManager : MonoBehaviour
     [SerializeField]
     GameObject saveRecordingPanel;
 
+
+    //This panel restricts the user from interacting during a replay is being played
     [SerializeField]
     GameObject inputBlocketPanel;
-
-
     #endregion
 
 
 
-    #region Unity Methods
-    private void OnEnable()
+    #region Core
+    //Subscribe to recording Callbacks
+    void OnEnable()
     {
-        //Subscribe to recording Callbacks
-        ReplayManager.Instance.OnStoppedRecording += OnStoppedRecording;
-        ReplayManager.Instance.OnStartedRecording += OnStartedRecording;
-        ReplayManager.Instance.OnStartedReplaying += OnStartedReplaying;
-        ReplayManager.Instance.OnStoppedReplaying += OnStoppedReplaying;
-        ReplayManager.Instance.OnSaveRecordingSuccess += OnSaveRecordingSuccess;
+        AppManager.Instance.replayManager.OnStoppedRecording += OnStoppedRecording;
+        AppManager.Instance.replayManager.OnStartedRecording += OnStartedRecording;
+        AppManager.Instance.replayManager.OnStartedReplaying += OnStartedReplaying;
+        AppManager.Instance.replayManager.OnStoppedReplaying += OnStoppedReplaying;
+        AppManager.Instance.replayManager.OnSaveRecordingSuccess += OnSaveRecordingSuccess;
     }
 
-    private void OnDisable()
+    //UnSubscribe from recording Callbacks
+    void OnDisable()
     {
-        //UnSubscribe from recording Callbacks
-        ReplayManager.Instance.OnStartedRecording -= OnStartedRecording;
-        ReplayManager.Instance.OnStoppedRecording -= OnStoppedRecording;
-        ReplayManager.Instance.OnStartedReplaying -= OnStartedReplaying;
-        ReplayManager.Instance.OnStoppedReplaying -= OnStoppedReplaying;
-        ReplayManager.Instance.OnSaveRecordingSuccess -= OnSaveRecordingSuccess;
+        AppManager.Instance.replayManager.OnStartedRecording -= OnStartedRecording;
+        AppManager.Instance.replayManager.OnStoppedRecording -= OnStoppedRecording;
+        AppManager.Instance.replayManager.OnStartedReplaying -= OnStartedReplaying;
+        AppManager.Instance.replayManager.OnStoppedReplaying -= OnStoppedReplaying;
+        AppManager.Instance.replayManager.OnSaveRecordingSuccess -= OnSaveRecordingSuccess;
     }
-    #endregion
 
-    #region Callbacks 
+    //Decide what happens once recording starts
     void OnStartedRecording()
     {
         startStopRecordButtonText.text = "Stop Recording";
@@ -71,6 +71,7 @@ public class ReplayPanelManager : MonoBehaviour
         replayInputField.interactable = false;
     }
 
+    //Decide what happens once recording stops
     void OnStoppedRecording()
     {
         startStopRecordButtonText.text = "Start Recording";
@@ -91,6 +92,8 @@ public class ReplayPanelManager : MonoBehaviour
         recordingInputField.text = null;
     }
 
+
+    //Decide what happens once replay starts
     void OnStartedReplaying()
     {
         startStopReplayButtonText.text = "Stop Replay";
@@ -105,6 +108,8 @@ public class ReplayPanelManager : MonoBehaviour
         inputBlocketPanel.SetActive(true);
     }
 
+
+    //Decide what happens once replay stops
     void OnStoppedReplaying()
     {
         startStopReplayButtonText.text = "Start Replay";
@@ -120,6 +125,8 @@ public class ReplayPanelManager : MonoBehaviour
         inputBlocketPanel.SetActive(false);
     }
 
+
+    //decided what happens once a recording have been saved successfully
     public void OnSaveRecordingSuccess() {
         //Close Save Recording Menu
         saveRecordingPanel.SetActive(false);
@@ -127,20 +134,21 @@ public class ReplayPanelManager : MonoBehaviour
 
 
 
-
+    //Decide what happens once save button is pressed after recording is done
     public void OnSaveRecordingButtonPressed()
     {
         if (!string.IsNullOrEmpty(recordingInputField.text))
-            ReplayManager.Instance.SaveRecording(recordingInputField.text);
+            AppManager.Instance.replayManager.SaveRecording(recordingInputField.text);
         else
             Debug.LogError("Enter a valid name please!!");
     }
 
 
+    //Decide what happens once the replay button is pressed
     public void OnReplayRecordingButtonPressed()
     {
         if (!string.IsNullOrEmpty(replayInputField.text))
-            ReplayManager.Instance.LoadRecording(replayInputField.text);
+            AppManager.Instance.replayManager.LoadRecording(replayInputField.text);
         else
             Debug.LogError("Enter a valid name please!!");
     }

@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.IO;
 
+//This class manages the Recording and Replay Functionality
 public class ReplayManager : MonoBehaviour
 {
 
@@ -9,29 +10,35 @@ public class ReplayManager : MonoBehaviour
     //Singelton Instance
     public static ReplayManager Instance { get; private set; }
 
-    [SerializeField, Multiline]
-    string streamData;
-
-
     //List of Objects whose transform shall be recorded
     [SerializeField]
     Shape[] recordableObjects;
 
+    //Memory Stream in which data shall be recorded in a Deterministic manner
     private MemoryStream memoryStream = null;
     private BinaryWriter binaryWriter = null;
     private BinaryReader binaryReader = null;
 
-    private bool recordingInitialized = false;
+
+    //Is Recording ?
     private bool recording = false;
+
+    //Is replaying ?
     private bool replaying = false;
 
+
+    //The Current Recording Frame
     [SerializeField]
     private int currentRecordingFrames = 0;
+
+    //Max Frames to be recorded, Recording shall stop after this many frames has been recorded
     public int maxRecordingFrames = 360;
 
     public int replayFrameLength = 2;
     private int replayFrameTimer = 0;
 
+
+    //Event used to Notify Record/Replay callbacks
     public Action OnStartedRecording;
     public Action OnStoppedRecording;
     public Action OnStartedReplaying;
@@ -40,7 +47,7 @@ public class ReplayManager : MonoBehaviour
     #endregion
 
 
-    #region Unity Methods
+    #region Core
     void Awake()
     {
         //Singelton Instance Handling Algorithm
@@ -52,6 +59,7 @@ public class ReplayManager : MonoBehaviour
         Instance = this;
     }
 
+    //Handle Recording/Replaying
     public void FixedUpdate()
     {
         if (recording)
@@ -63,9 +71,16 @@ public class ReplayManager : MonoBehaviour
             UpdateReplaying();
         }
     }
-    #endregion
 
-    #region Core
+    //Initialize the MemoryStream,BinaryWriter,BinaryReader so that they can be used by the Data Load/Save methods
+    void InitializeRecording()
+    {
+        memoryStream = new MemoryStream();
+        binaryWriter = new BinaryWriter(memoryStream);
+        binaryReader = new BinaryReader(memoryStream);
+    }
+
+    //Start/Stop Recording behaviour
     public void StartStopRecording()
     {
         if (!recording)
@@ -78,14 +93,8 @@ public class ReplayManager : MonoBehaviour
         }
     }
 
-    private void InitializeRecording()
-    {
-        memoryStream = new MemoryStream();
-        binaryWriter = new BinaryWriter(memoryStream);
-        binaryReader = new BinaryReader(memoryStream);
-        recordingInitialized = true;
-    }
 
+    //Load the specified Recording from the FileSystem
     public void LoadRecording(string recordingName) {
 
         //File path
@@ -115,32 +124,32 @@ public class ReplayManager : MonoBehaviour
         else
         {
             Debug.LogError("Recording Not found at " + filePath);
-            //Maybe show recording not found popup!
         }
     }
 
-    private void StartRecording()
+
+    //Starts the Recording
+    void StartRecording()
     {
-        //if (!recordingInitialized)
-        //{
-            InitializeRecording();
-        //}
-        //else
-        //{
-        //    memoryStream.SetLength(0);
-        //}
+        InitializeRecording();
+
+        //Resets the replay frame, for fresh replay start
         ResetReplayFrame();
 
         StartReplayFrameTimer();
         recording = true;
         if (OnStartedRecording != null)
         {
+            //Fire Event for Notify
             OnStartedRecording();
         }
     }
 
-    private void UpdateRecording()
+
+    //Is Recording behaviour
+    void UpdateRecording()
     {
+        //cap the recording to avoid Endless recording
         if (currentRecordingFrames > maxRecordingFrames)
         {
             StopRecording();
@@ -156,7 +165,9 @@ public class ReplayManager : MonoBehaviour
         ++currentRecordingFrames;
     }
 
-    private void StopRecording()
+
+    //Stops the Recording
+    void StopRecording()
     {
         recording = false;
 
@@ -168,12 +179,16 @@ public class ReplayManager : MonoBehaviour
         }
     }
 
+
+    //Resets the Replay Seek Frame for fresh Loading
     private void ResetReplayFrame()
     {
         memoryStream?.Seek(0, SeekOrigin.Begin);
         binaryWriter?.Seek(0, SeekOrigin.Begin);
     }
 
+
+    //Replay Start/Stop Behaviour, Acts in toggle manner
     public void StartStopReplaying()
     {
         if (!replaying)
@@ -186,7 +201,8 @@ public class ReplayManager : MonoBehaviour
         }
     }
 
-    private void StartReplaying()
+    //Start Replay
+    void StartReplaying()
     {
         ResetReplayFrame();
         StartReplayFrameTimer();
@@ -197,6 +213,8 @@ public class ReplayManager : MonoBehaviour
         }
     }
 
+
+    //replay Update Behaviour
     private void UpdateReplaying()
     {
         if (memoryStream.Position >= memoryStream.Length)
@@ -213,41 +231,35 @@ public class ReplayManager : MonoBehaviour
         --replayFrameTimer;
     }
 
+    //Stop Replay
     private void StopReplaying()
     {
         replaying = false;
         if (OnStoppedReplaying != null)
         {
+            //Fire Event to Notify
             OnStoppedReplaying();
         }
     }
 
-    private void ResetReplayFrameTimer()
+    //Resets The Replay Frame timer to the specified value
+    void ResetReplayFrameTimer()
     {
         replayFrameTimer = replayFrameLength;
     }
 
+    //Sets The Replay Frame timer to 0 or the begining
     private void StartReplayFrameTimer()
     {
         replayFrameTimer = 0;
     }
 
+    //Save the Specified Recording using the File system
     public void SaveRecording(string recordingName) {
+        AppManager.Instance.fileIOManager.WriteMemorySteamToFile(memoryStream ,Path.Combine(Application.persistentDataPath ,recordingName + ".bin"));
 
-        //Check if a file with the same name exists
-        //Yes 
-        //if (AppManager.Instance.fileIOManager.DoesFileExist(Application.persistentDataPath, recordingName))
-        //{
-        //    //Show Overwrite Popup
-        //    OnSaveRecordingDuplicateException();
-        //}
-        //No - Save File
-        //else {
-            AppManager.Instance.fileIOManager.WriteMemorySteamToFile(memoryStream ,Path.Combine(Application.persistentDataPath ,recordingName + ".bin"));
-
-            //TODO Call this only when we get success from the FileStream Writer , for now it assumes success only but there may be an exception , and it would be good to handle that exception
-            OnSaveRecordingSuccess();
-        //}
+        //TODO Call this only when we get success from the FileStream Writer , for now it assumes success only but there may be an exception , and it would be good to handle that exception
+        OnSaveRecordingSuccess();
     }
 
 
@@ -307,6 +319,7 @@ public class ReplayManager : MonoBehaviour
     }
 
 
+    //Save the Color of the shape
     void SaveColor(Shape shape) {
         binaryWriter.Write(shape.GetCurrentColorIndex());
     }
@@ -320,7 +333,7 @@ public class ReplayManager : MonoBehaviour
 
 
 
-
+    //Load data From Binary Reader used To replay a recording
     private void LoadData(Shape[] shapes)
     {
         //----Load Tooltip Data-------
@@ -366,12 +379,14 @@ public class ReplayManager : MonoBehaviour
     }
 
 
-
+    //Loads color of the specified obj, used to replay the color related values
     void LoadColor(Shape shape)
     {
         //Load and Set Color Index
         shape.SetColor(binaryReader.ReadInt32());
     }
+
+    //Loads Transform of the specified obj, used to replay the transform related values
     private void LoadTransform(Transform transform)
     {
         //Load and Set Transform position

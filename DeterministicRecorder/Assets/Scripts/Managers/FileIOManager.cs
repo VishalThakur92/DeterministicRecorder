@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 
+
+//This file is used to Write/Read data from files and interact with the File I/O System
 public class FileIOManager : MonoBehaviour
 {
 

@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
+
+//This is a child class of UIElement
+//This class is responsible for showing the tooltip
 public class TooltipManager : UIElement
 {
     public override void Toggle(bool flag, string data = null, Vector2 position = default)

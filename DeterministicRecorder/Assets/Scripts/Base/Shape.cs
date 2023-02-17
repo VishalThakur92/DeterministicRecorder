@@ -2,6 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//This is the base class of any Shape
+
+//In our case we have Triangle, Circle, Star
+//All of them can have individual characteristic and behaviours
 [RequireComponent(typeof(Image))]
 public abstract class Shape : MonoBehaviour
 {
@@ -35,7 +40,7 @@ public abstract class Shape : MonoBehaviour
 
 
 
-    #region Unity
+    #region Core
     void Start() {
 
         //grab the Shape's Image Ref
@@ -45,10 +50,6 @@ public abstract class Shape : MonoBehaviour
         if (colorVariations.Count > 0)
             imageRef.color = colorVariations[currentColorIndex];
     }
-    #endregion
-
-
-    #region Core
     protected virtual void CycleColor()
     {
         currentColorIndex++;
