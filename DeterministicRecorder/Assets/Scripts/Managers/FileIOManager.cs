@@ -45,7 +45,6 @@ public class FileIOManager : MonoBehaviour
     //Write Memory Stream Data to a file
     public void WriteMemorySteamToFile(MemoryStream memoryStream, string path)
     {
-        Debug.LogError("Write" + path);
         using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
         {
             memoryStream.WriteTo(file);

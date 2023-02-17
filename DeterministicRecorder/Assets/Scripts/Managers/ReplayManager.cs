@@ -144,7 +144,6 @@ public class ReplayManager : MonoBehaviour
         if (currentRecordingFrames > maxRecordingFrames)
         {
             StopRecording();
-            currentRecordingFrames = 0;
             return;
         }
 
@@ -161,6 +160,8 @@ public class ReplayManager : MonoBehaviour
     {
         recording = false;
 
+        //Reset Current Recording Frames
+        currentRecordingFrames = 0;
         if (OnStoppedRecording != null)
         {
             OnStoppedRecording();

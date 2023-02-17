@@ -28,6 +28,9 @@ public class ReplayPanelManager : MonoBehaviour
     [SerializeField]
     GameObject saveRecordingPanel;
 
+    [SerializeField]
+    GameObject inputBlocketPanel;
+
 
     #endregion
 
@@ -97,6 +100,9 @@ public class ReplayPanelManager : MonoBehaviour
 
         //Disable Input Field
         replayInputField.interactable = false;
+
+        //Enable Input Blocker as we dont want the user to be interacting with objects while playback
+        inputBlocketPanel.SetActive(true);
     }
 
     void OnStoppedReplaying()
@@ -108,6 +114,10 @@ public class ReplayPanelManager : MonoBehaviour
 
         //Enable Input Field
         replayInputField.interactable = true;
+
+
+        //Disbal Input Blocker 
+        inputBlocketPanel.SetActive(false);
     }
 
     public void OnSaveRecordingSuccess() {
