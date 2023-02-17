@@ -7,9 +7,10 @@ public class FileIOManager : MonoBehaviour
 {
 
 
+    #region Core
     //Check if a file exists in the given directory
-    public bool DoesFileExist(string directory, string fileName) {
-        if (File.Exists(directory + "/"+ fileName))
+    public bool DoesFileExist(string filePath) {
+        if (File.Exists(filePath))
             return true;
         else
             return false;
@@ -19,6 +20,7 @@ public class FileIOManager : MonoBehaviour
     //Write Memory Stream Data to a file
     public void WriteMemorySteamToFile(MemoryStream memoryStream, string path)
     {
+        Debug.LogError("Write" + path);
         using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
         {
             memoryStream.WriteTo(file);
@@ -26,12 +28,15 @@ public class FileIOManager : MonoBehaviour
     }
 
     //Write Memory Stream Data to a file
-    public MemoryStream ReadMemorySteamFromFile(string path)
+    public BinaryReader ReadSteamFromFile(string path)
     {
-        using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+        using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
         {
-            return null;
+            using (BinaryReader r = new BinaryReader(fs))
+            {
+                return r;
+            }
         }
     }
-
+    #endregion
 }

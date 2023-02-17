@@ -86,6 +86,39 @@ public class ReplayManager : MonoBehaviour
         recordingInitialized = true;
     }
 
+    public void LoadRecording(string recordingName) {
+
+        //File path
+        string filePath = Path.Combine(Application.persistentDataPath, recordingName + ".bin");
+
+        //check if file Exists
+        //yes - Load into stream and play recording
+        if (AppManager.Instance.fileIOManager.DoesFileExist(filePath))
+        {
+            //memoryStream.Dispose();
+            //using (MemoryStream ms = new MemoryStream())
+            using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                byte[] bytes = new byte[file.Length];
+                file.Read(bytes, 0, (int)file.Length);
+                memoryStream = new MemoryStream();
+                memoryStream.Write(bytes, 0, (int)file.Length);
+            }
+
+            //binaryReader.Dispose();
+            binaryReader = new BinaryReader(memoryStream);
+
+            //binaryReader = AppManager.Instance.fileIOManager.ReadSteamFromFile(filePath);
+            StartStopReplaying();
+        }
+        //No - do nothing for now
+        else
+        {
+            Debug.LogError("Recording Not found at " + filePath);
+            //Maybe show recording not found popup!
+        }
+    }
+
     private void StartRecording()
     {
         if (!recordingInitialized)

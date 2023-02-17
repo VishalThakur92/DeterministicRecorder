@@ -82,6 +82,9 @@ public class ReplayPanelManager : MonoBehaviour
 
         //Show save Recording screen
         saveRecordingPanel.SetActive(true);
+
+        //Reset Rec name so that user can enter different name
+        recordingInputField.text = null;
     }
 
     void OnStartedReplaying()
@@ -114,9 +117,19 @@ public class ReplayPanelManager : MonoBehaviour
 
 
 
-    public void OnSaveRecordingButtonPressed() {
+    public void OnSaveRecordingButtonPressed()
+    {
         if (!string.IsNullOrEmpty(recordingInputField.text))
             ReplayManager.Instance.SaveRecording(recordingInputField.text);
+        else
+            Debug.LogError("Enter a valid name please!!");
+    }
+
+
+    public void OnReplayRecordingButtonPressed()
+    {
+        if (!string.IsNullOrEmpty(replayInputField.text))
+            ReplayManager.Instance.LoadRecording(replayInputField.text);
         else
             Debug.LogError("Enter a valid name please!!");
     }
