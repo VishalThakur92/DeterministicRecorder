@@ -51,6 +51,18 @@ public class ReplayManager : MonoBehaviour
         Instance = this;
     }
 
+
+    //private void OnGUI()
+    //{
+    //    var info = new DirectoryInfo(Application.persistentDataPath);
+    //    var fileInfo = info.GetFiles();
+
+    //    GUILayout.TextField("Path = " + Application.persistentDataPath);
+    //    foreach (FileInfo file in fileInfo)
+    //        GUILayout.TextField(file.Name + "\n");
+    //}
+
+
     public void FixedUpdate()
     {
         if (recording)
@@ -126,6 +138,14 @@ public class ReplayManager : MonoBehaviour
     private void StopRecording()
     {
         recording = false;
+
+        string path = Application.persistentDataPath + "/Rec_ " + DateTime.Now +  ".bin";
+        Debug.LogError("Gonna save file to : " + path);
+        using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
+        {
+            memoryStream.WriteTo(file);
+        }
+
         if (OnStoppedRecording != null)
         {
             OnStoppedRecording();

@@ -5,16 +5,21 @@ public class ReplayPanelManager : MonoBehaviour
 {
     #region Parameters
     //Button used to start and stop the recording
-    public Button startStopRecordButton;
+    [SerializeField] Button startStopRecordButton;
 
     //record button's text component
-    public Text startStopRecordButtonText;
+    [SerializeField] Text startStopRecordButtonText;
 
     //Button used to start and stop the replay of the selected recording
-    public Button startStopReplayButton;
+    [SerializeField] Button startStopReplayButton;
 
     //the replay button's text component
-    public Text startStopReplayButtonText;
+    [SerializeField]
+    Text startStopReplayButtonText;
+
+    [SerializeField]
+    InputField recordingInputField;
+
     #endregion
 
 
@@ -43,24 +48,46 @@ public class ReplayPanelManager : MonoBehaviour
     void OnStartedRecording()
     {
         startStopRecordButtonText.text = "Stop Recording";
+
+        //Disable Replay button
+        startStopReplayButton.interactable = false;
+
+        //Disable Input Field
+        recordingInputField.interactable = false;
     }
 
     void OnStoppedRecording()
     {
         startStopRecordButtonText.text = "Start Recording";
+
+        //Enable Replay button
         startStopReplayButton.interactable = true;
+
+
+        //Enable Input Field
+        recordingInputField.interactable = true;
     }
 
     void OnStartedReplaying()
     {
         startStopReplayButtonText.text = "Stop Replay";
+
+        //Disable Recording button
         startStopRecordButton.interactable = false;
+
+        //Disable Input Field
+        recordingInputField.interactable = false;
     }
 
     void OnStoppedReplaying()
     {
         startStopReplayButtonText.text = "Start Replay";
+
+        //Enable Recording button
         startStopRecordButton.interactable = true;
+
+        //Enable Input Field
+        recordingInputField.interactable = true;
     }
     #endregion
 }
