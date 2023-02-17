@@ -121,14 +121,14 @@ public class ReplayManager : MonoBehaviour
 
     private void StartRecording()
     {
-        if (!recordingInitialized)
-        {
+        //if (!recordingInitialized)
+        //{
             InitializeRecording();
-        }
-        else
-        {
-            memoryStream.SetLength(0);
-        }
+        //}
+        //else
+        //{
+        //    memoryStream.SetLength(0);
+        //}
         ResetReplayFrame();
 
         StartReplayFrameTimer();

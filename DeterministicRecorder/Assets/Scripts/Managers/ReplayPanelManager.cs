@@ -28,6 +28,9 @@ public class ReplayPanelManager : MonoBehaviour
     [SerializeField]
     GameObject saveRecordingPanel;
 
+    [SerializeField]
+    Text allRecordingsText;
+
     #endregion
 
 
@@ -55,6 +58,10 @@ public class ReplayPanelManager : MonoBehaviour
     #endregion
 
     #region Callbacks
+    public void ShowAllRecordings(string data) {
+        allRecordingsText.text = data;
+    }
+
     void OnStartedRecording()
     {
         startStopRecordButtonText.text = "Stop Recording";
@@ -95,7 +102,7 @@ public class ReplayPanelManager : MonoBehaviour
         startStopRecordButton.interactable = false;
 
         //Disable Input Field
-        recordingInputField.interactable = false;
+        replayInputField.interactable = false;
     }
 
     void OnStoppedReplaying()
@@ -106,7 +113,7 @@ public class ReplayPanelManager : MonoBehaviour
         startStopRecordButton.interactable = true;
 
         //Enable Input Field
-        recordingInputField.interactable = true;
+        replayInputField.interactable = true;
     }
 
     public void OnSaveRecordingSuccess() {
