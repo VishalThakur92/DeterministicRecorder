@@ -2,9 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public class FileIOManager : MonoBehaviour
 {
+
+
+    //---For Testing Only
+    //All files in the Location are displayed here, this lets user know what all files are there to load
+    [SerializeField]
+    Text allRecordingsText;
+    string filesData;
+    private void Update()
+    {
+        DirectoryInfo info = new DirectoryInfo(Application.persistentDataPath);
+        var fileInfo = info.GetFiles();
+        filesData = null;
+        foreach (FileInfo file in fileInfo)
+        {
+            if (file.Name.Contains(".bin"))
+            {
+                filesData += file.Name.Split('.')[0] + "\n";
+            }
+        }
+
+        allRecordingsText.text = filesData;
+    }
+    //-----------
+
 
 
     #region Core

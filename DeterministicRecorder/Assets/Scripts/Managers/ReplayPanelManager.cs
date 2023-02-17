@@ -28,8 +28,6 @@ public class ReplayPanelManager : MonoBehaviour
     [SerializeField]
     GameObject saveRecordingPanel;
 
-    [SerializeField]
-    Text allRecordingsText;
 
     #endregion
 
@@ -57,11 +55,7 @@ public class ReplayPanelManager : MonoBehaviour
     }
     #endregion
 
-    #region Callbacks
-    public void ShowAllRecordings(string data) {
-        allRecordingsText.text = data;
-    }
-
+    #region Callbacks 
     void OnStartedRecording()
     {
         startStopRecordButtonText.text = "Stop Recording";
