@@ -26,7 +26,7 @@ public class ReplayPanelManager : MonoBehaviour
     //saveRecordingPanel - The save recording UI panel
     //saveOverwritePanel - The Save overwrite UI Panel
     [SerializeField]
-    GameObject saveRecordingPanel, saveOverwritePanel;
+    GameObject saveRecordingPanel;
 
     #endregion
 
@@ -41,7 +41,6 @@ public class ReplayPanelManager : MonoBehaviour
         ReplayManager.Instance.OnStartedReplaying += OnStartedReplaying;
         ReplayManager.Instance.OnStoppedReplaying += OnStoppedReplaying;
         ReplayManager.Instance.OnSaveRecordingSuccess += OnSaveRecordingSuccess;
-        ReplayManager.Instance.OnSaveRecordingDuplicateException+= OnSaveRecordingDuplicateException;
     }
 
     private void OnDisable()
@@ -52,7 +51,6 @@ public class ReplayPanelManager : MonoBehaviour
         ReplayManager.Instance.OnStartedReplaying -= OnStartedReplaying;
         ReplayManager.Instance.OnStoppedReplaying -= OnStoppedReplaying;
         ReplayManager.Instance.OnSaveRecordingSuccess -= OnSaveRecordingSuccess;
-        ReplayManager.Instance.OnSaveRecordingDuplicateException -= OnSaveRecordingDuplicateException;
     }
     #endregion
 
@@ -64,8 +62,9 @@ public class ReplayPanelManager : MonoBehaviour
         //Disable Replay button
         startStopReplayButton.interactable = false;
 
-        //Disable Input Field
+        //Disable Input Fields
         recordingInputField.interactable = false;
+        replayInputField.interactable = false;
     }
 
     void OnStoppedRecording()
@@ -78,6 +77,7 @@ public class ReplayPanelManager : MonoBehaviour
 
         //Enable Input Field
         recordingInputField.interactable = true;
+        replayInputField.interactable = true;
 
 
         //Show save Recording screen
@@ -112,10 +112,6 @@ public class ReplayPanelManager : MonoBehaviour
     }
 
 
-    void OnSaveRecordingDuplicateException() {
-        //Show Overwrite Popup
-        saveOverwritePanel.SetActive(true);
-    }
 
 
     public void OnSaveRecordingButtonPressed() {

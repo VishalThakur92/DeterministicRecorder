@@ -17,10 +17,20 @@ public class FileIOManager : MonoBehaviour
 
 
     //Write Memory Stream Data to a file
-    public void WriteMemorySteamToFile(MemoryStream memoryStream, string path) {
+    public void WriteMemorySteamToFile(MemoryStream memoryStream, string path)
+    {
         using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
         {
             memoryStream.WriteTo(file);
+        }
+    }
+
+    //Write Memory Stream Data to a file
+    public MemoryStream ReadMemorySteamFromFile(string path)
+    {
+        using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+        {
+            return null;
         }
     }
 
