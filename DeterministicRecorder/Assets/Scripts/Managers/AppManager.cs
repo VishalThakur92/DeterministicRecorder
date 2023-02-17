@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AppManager : GenericSingletonClass<AppManager>
 {
+    #region Parameters
     [SerializeField]
     public PopupManager popupManager;
 
@@ -15,4 +16,8 @@ public class AppManager : GenericSingletonClass<AppManager>
 
     [SerializeField]
     public SceneHandler sceneHandler;
+
+    [SerializeField]
+    public FileIOManager fileIOManager;
+    #endregion
 }

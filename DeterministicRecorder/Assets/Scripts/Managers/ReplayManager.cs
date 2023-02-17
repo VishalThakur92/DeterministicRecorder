@@ -36,6 +36,8 @@ public class ReplayManager : MonoBehaviour
     public Action OnStoppedRecording;
     public Action OnStartedReplaying;
     public Action OnStoppedReplaying;
+    public Action OnSaveRecordingSuccess;
+    public Action OnSaveRecordingDuplicateException;
     #endregion
 
 
@@ -50,18 +52,6 @@ public class ReplayManager : MonoBehaviour
         }
         Instance = this;
     }
-
-
-    //private void OnGUI()
-    //{
-    //    var info = new DirectoryInfo(Application.persistentDataPath);
-    //    var fileInfo = info.GetFiles();
-
-    //    GUILayout.TextField("Path = " + Application.persistentDataPath);
-    //    foreach (FileInfo file in fileInfo)
-    //        GUILayout.TextField(file.Name + "\n");
-    //}
-
 
     public void FixedUpdate()
     {
@@ -139,13 +129,6 @@ public class ReplayManager : MonoBehaviour
     {
         recording = false;
 
-        string path = Application.persistentDataPath + "/Rec_ " + DateTime.Now +  ".bin";
-        Debug.LogError("Gonna save file to : " + path);
-        using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
-        {
-            memoryStream.WriteTo(file);
-        }
-
         if (OnStoppedRecording != null)
         {
             OnStoppedRecording();
@@ -214,6 +197,24 @@ public class ReplayManager : MonoBehaviour
     private void StartReplayFrameTimer()
     {
         replayFrameTimer = 0;
+    }
+
+    public void SaveRecording(string recordingName) {
+
+        //Check if a file with the same name exists
+        //Yes 
+        if (AppManager.Instance.fileIOManager.DoesFileExist(Application.persistentDataPath, recordingName))
+        {
+            //Show Overwrite Popup
+            OnSaveRecordingDuplicateException();
+        }
+        //No - Save File
+        else {
+            AppManager.Instance.fileIOManager.WriteMemorySteamToFile(memoryStream ,Path.Combine(Application.persistentDataPath ,recordingName + ".bin"));
+
+            //TODO Call this only when we get success from the FileStream Writer , for now it assumes success only but there may be an exception , and it would be good to handle that exception
+            OnSaveRecordingSuccess();
+        }
     }
 
 

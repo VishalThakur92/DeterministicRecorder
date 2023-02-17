@@ -17,8 +17,16 @@ public class ReplayPanelManager : MonoBehaviour
     [SerializeField]
     Text startStopReplayButtonText;
 
+    //Replay input field - User can enter a name to replay saved recording
+    //recording input field - The newly recorded recording will be saved by this name
     [SerializeField]
-    InputField recordingInputField;
+    InputField replayInputField, recordingInputField;
+
+
+    //saveRecordingPanel - The save recording UI panel
+    //saveOverwritePanel - The Save overwrite UI Panel
+    [SerializeField]
+    GameObject saveRecordingPanel, saveOverwritePanel;
 
     #endregion
 
@@ -32,6 +40,8 @@ public class ReplayPanelManager : MonoBehaviour
         ReplayManager.Instance.OnStartedRecording += OnStartedRecording;
         ReplayManager.Instance.OnStartedReplaying += OnStartedReplaying;
         ReplayManager.Instance.OnStoppedReplaying += OnStoppedReplaying;
+        ReplayManager.Instance.OnSaveRecordingSuccess += OnSaveRecordingSuccess;
+        ReplayManager.Instance.OnSaveRecordingDuplicateException+= OnSaveRecordingDuplicateException;
     }
 
     private void OnDisable()
@@ -41,6 +51,8 @@ public class ReplayPanelManager : MonoBehaviour
         ReplayManager.Instance.OnStoppedRecording -= OnStoppedRecording;
         ReplayManager.Instance.OnStartedReplaying -= OnStartedReplaying;
         ReplayManager.Instance.OnStoppedReplaying -= OnStoppedReplaying;
+        ReplayManager.Instance.OnSaveRecordingSuccess -= OnSaveRecordingSuccess;
+        ReplayManager.Instance.OnSaveRecordingDuplicateException -= OnSaveRecordingDuplicateException;
     }
     #endregion
 
@@ -66,6 +78,10 @@ public class ReplayPanelManager : MonoBehaviour
 
         //Enable Input Field
         recordingInputField.interactable = true;
+
+
+        //Show save Recording screen
+        saveRecordingPanel.SetActive(true);
     }
 
     void OnStartedReplaying()
@@ -89,5 +105,25 @@ public class ReplayPanelManager : MonoBehaviour
         //Enable Input Field
         recordingInputField.interactable = true;
     }
+
+    public void OnSaveRecordingSuccess() {
+        //Close Save Recording Menu
+        saveRecordingPanel.SetActive(false);
+    }
+
+
+    void OnSaveRecordingDuplicateException() {
+        //Show Overwrite Popup
+        saveOverwritePanel.SetActive(true);
+    }
+
+
+    public void OnSaveRecordingButtonPressed() {
+        if (!string.IsNullOrEmpty(recordingInputField.text))
+            ReplayManager.Instance.SaveRecording(recordingInputField.text);
+        else
+            Debug.LogError("Enter a valid name please!!");
+    }
+
     #endregion
 }
